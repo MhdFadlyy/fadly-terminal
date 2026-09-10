@@ -1,0 +1,4 @@
+example.com
+# To use a custom domain: rename this file to `CNAME`, put your bare domain
+# on the first line (no comments, one line only), commit + push, then set it in
+# GitHub → Settings → Pages → Custom domain. DNS: see README.
