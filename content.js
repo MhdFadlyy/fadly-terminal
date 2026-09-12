@@ -3,42 +3,43 @@
 
 window.CONTENT = {
   profile: {
-    user: "fadly",
+    user: "pali",
     host: "web",
-    name: "Muhammad Fadly",
-    tagline: "systems engineer · backend · indonesia",
-    status: "building things · open to interesting problems",
+    name: "Pali",
+    tagline: "blue team by trade, red team curious · SOC analyst",
+    status: "cybersecurity student @ IIUM · open to opportunities worldwide",
   },
 
   // whoami output
   whoami: [
-    "Muhammad Fadly",
-    "systems engineer — backend, infrastructure, distributed things.",
-    "based in indonesia.",
+    "Pali",
+    "SOC analyst — detection, triage, incident response.",
+    "cybersecurity student @ International Islamic University Malaysia (IIUM).",
+    "based in malaysia, open to opportunities worldwide.",
+    "fun fact: breaks things to learn how to defend them better.",
   ],
 
   // `links` command. Order preserved. Use full URLs (or mailto:).
   links: [
     { label: "github", url: "https://github.com/MhdFadlyy" },
-    { label: "linkedin", url: "#" },
-    { label: "email", url: "mailto:m.fadly020@gmail.com" },
+    { label: "linkedin", url: "https://www.linkedin.com/in/paliii" },
+    { label: "email", url: "mailto:mhd.fadly973@gmail.com" },
     { label: "resume", url: "#" },
   ],
 
   // `now` command — what you're focused on lately.
   now: [
-    "shipping a small self-hosted service and writing about it.",
-    "learning: rust, systems design, a bit of postgres internals.",
-    "reading: placeholder book title.",
+    "leveling up in penetration testing (OSCP path).",
+    "threat hunting & log analysis.",
+    "cloud security fundamentals.",
     "last updated: 2026-09",
   ],
 
   // `uses` command — your setup.
   uses: {
-    editor: ["neovim", "vscode when pairing"],
-    os: ["arch linux (omarchy) · hyprland"],
-    languages: ["go", "typescript", "rust (learning)", "python"],
-    hardware: ["placeholder laptop", "logitech g304 + g733"],
+    os: ["kali linux", "linux"],
+    languages: ["python"],
+    tools: ["wireshark", "splunk", "burp suite", "nmap"],
   },
 
   // `ls posts` / `cat <slug>` — short writing. Newest first.
