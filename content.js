@@ -24,7 +24,7 @@ window.CONTENT = {
     { label: "github", url: "https://github.com/MhdFadlyy" },
     { label: "linkedin", url: "https://www.linkedin.com/in/paliii" },
     { label: "email", url: "mailto:m.fadly020@gmail.com" },
-    { label: "resume", url: "#" },
+    { label: "resume", url: "resume.pdf" },
   ],
 
   // `now` command — what you're focused on lately.
