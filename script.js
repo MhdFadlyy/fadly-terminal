@@ -22,7 +22,7 @@
     saveTheme(t);
     return true;
   }
-  applyTheme(getTheme() || "amber");
+  applyTheme(getTheme() || "green");
 
   // ── rendering ────────────────────────────────────────────────────
   var inputRow, input;
@@ -155,7 +155,7 @@
     },
 
     theme: function (args) {
-      if (!args[0]) return ["theme: " + (getTheme() || "amber") + "  (options: " + THEMES.join(", ") + ")"];
+      if (!args[0]) return ["theme: " + (getTheme() || "green") + "  (options: " + THEMES.join(", ") + ")"];
       if (applyTheme(args[0])) return [{ text: "theme set to " + args[0], cls: "dim" }];
       return [{ text: "theme: unknown theme '" + args[0] + "' (options: " + THEMES.join(", ") + ")", cls: "err" }];
     },
@@ -328,7 +328,7 @@
     console.assert(execute("clear").action === "clear", "clear signals action");
     console.assert(execute("").lines.length === 0, "empty input is a no-op");
     console.assert(execute("theme green").lines[0].text.indexOf("green") > -1, "theme switch");
-    applyTheme("amber");
+    applyTheme("green");
     console.log("demo: all assertions passed");
   };
 

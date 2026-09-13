@@ -28,7 +28,7 @@ python3 -m http.server 8000
 
 ## Themes
 
-Default is `amber` (phosphor CRT). Switch at runtime with `theme green` / `theme mono`,
+Default is `green` (phosphor CRT). Switch at runtime with `theme amber` / `theme mono`,
 or change the default by editing `:root` in `style.css`.
 
 ## Deploy (GitHub Pages)

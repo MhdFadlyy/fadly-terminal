@@ -1,16 +1,16 @@
 :root,
-:root[data-theme="amber"] {
-  --bg: #0c0a06;
-  --fg: #ffb642;
-  --dim: #8a6a2f;
-  --accent: #ffd48a;
-  --scanline: 1;
-}
 :root[data-theme="green"] {
   --bg: #04100a;
   --fg: #4bffa5;
   --dim: #2f8a63;
   --accent: #b6ffdc;
+  --scanline: 1;
+}
+:root[data-theme="amber"] {
+  --bg: #0c0a06;
+  --fg: #ffb642;
+  --dim: #8a6a2f;
+  --accent: #ffd48a;
   --scanline: 1;
 }
 :root[data-theme="mono"] {
