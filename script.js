@@ -99,18 +99,23 @@
   // each returns: array of lines, or {lines, action}
   var COMMANDS = {
     help: function () {
+      // pad by visible label length (not HTML length) so every row lines up in one column
+      var COL = 16;
+      function row(labelHtml, visibleLabel, rest) {
+        return { html: "  " + labelHtml + " ".repeat(Math.max(2, COL - visibleLabel.length)) + rest };
+      }
       return [
         "available commands:",
         "",
-        { html: "  " + cmdBtn("about") + ", " + cmdBtn("whoami") + "   who i am" },
-        { html: "  " + cmdBtn("links") + "           where to find me" },
-        { html: "  " + cmdBtn("now") + "             what i'm doing lately" },
-        { html: "  " + cmdBtn("uses") + "            my setup" },
-        { html: "  " + cmdBtn("resume") + "          open my resume" },
-        { html: "  " + cmdBtn("contact") + "         how to reach me" },
-        { html: "  theme               " + themeOptionsHtml() },
-        { html: "  " + cmdBtn("clear") + "           clear the screen" },
-        { html: "  " + cmdBtn("help") + "            this" },
+        row(cmdBtn("about") + ", " + cmdBtn("whoami"), "about, whoami", "who i am"),
+        row(cmdBtn("links"), "links", "where to find me"),
+        row(cmdBtn("now"), "now", "what i'm doing lately"),
+        row(cmdBtn("uses"), "uses", "my setup"),
+        row(cmdBtn("resume"), "resume", "open my resume"),
+        row(cmdBtn("contact"), "contact", "how to reach me"),
+        row("theme", "theme", themeOptionsHtml()),
+        row(cmdBtn("clear"), "clear", "clear the screen"),
+        row(cmdBtn("help"), "help", "this"),
         "",
         { text: "tip: click a command name to run it, no typing needed.", cls: "dim" },
       ];
@@ -144,7 +149,7 @@
     },
 
     contact: function () {
-      return C.links.filter(function (l) { return l.label === "email" || l.label === "linkedin"; })
+      return C.links.filter(function (l) { return l.label !== "resume"; })
         .map(function (l) { return { html: "  " + l.label.padEnd(10) + anchor(l.url.replace(/^mailto:/, ""), l.url) }; });
     },
 
