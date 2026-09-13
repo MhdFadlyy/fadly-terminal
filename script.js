@@ -299,10 +299,13 @@
       while (i < BOOT.length) printLine(BOOT[i++]);
       finishBoot();
     }
-    window.addEventListener("keydown", function h(e) {
-      window.removeEventListener("keydown", h);
+    function onSkipInput() {
+      window.removeEventListener("keydown", onSkipInput);
+      window.removeEventListener("touchstart", onSkipInput);
       skip();
-    });
+    }
+    window.addEventListener("keydown", onSkipInput);
+    window.addEventListener("touchstart", onSkipInput);
   }
 
   // focus input on any click in the terminal
