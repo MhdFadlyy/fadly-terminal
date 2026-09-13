@@ -7,7 +7,7 @@ actually takes commands.
 ## Edit your content
 
 Everything you'd change lives in **`content.js`**: name, tagline, links, `now`,
-`uses`, and posts. Edit it, commit, push. GitHub Actions redeploys automatically.
+and `uses`. Edit it, commit, push. GitHub Actions redeploys automatically.
 You never need to touch `script.js`.
 
 ## Run locally
@@ -19,9 +19,15 @@ python3 -m http.server 8000
 
 ## Commands
 
-`help` `about` / `whoami` `links` `now` `uses` `ls [posts]` `cat <slug>`
-`cat resume` `contact` `banner` `theme <amber|green|mono>` `date` `clear` `echo`
+`help` `about` / `whoami` `links` `now` `uses` `resume` `contact` `theme <amber|green|mono>`
+`clear` `echo`
 
+`banner` and `date` still work if typed, they just don't show up in `help` since the
+boot sequence already runs both on load.
+
+- Every command name in `help` is a button: tap it and it runs, no typing needed.
+- The `theme` line in `help` shows the two themes you're not on as buttons; the
+  current one is shown as plain text, nothing to click there.
 - Up/Down arrows: command history. Tab: complete a command name. Ctrl+L: clear.
 - `theme` is remembered in `localStorage`.
 - Respects `prefers-reduced-motion` (skips the boot animation, dims the scanline).

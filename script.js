@@ -74,13 +74,25 @@
     return '<a href="' + esc(url) + '"' + attr + ">" + esc(label) + "</a>";
   }
 
-  // clickable text that runs a command without typing, e.g. a post slug that runs `cat <slug>`
-  function cmdLink(label, cmd, extraClass) {
-    var cls = extraClass ? "cmd " + extraClass : "cmd";
-    return '<button class="' + cls + '" type="button" data-cmd="' + esc(cmd) + '">' + esc(label) + "</button>";
+  // clickable text that runs a command without typing, e.g. `cmdBtn("now")` runs `now`.
+  // wired via a plain onclick attribute (not a delegated listener) so it works even if
+  // the button ends up inside HTML inserted through innerHTML.
+  function cmdLink(label, cmd) {
+    var safeCmd = cmd.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+    return '<button class="cmd" type="button" onclick="window.__cmd(\'' + safeCmd + '\')">' + esc(label) + "</button>";
   }
   function cmdBtn(name) {
     return cmdLink(name, name);
+  }
+
+  // theme picker used in `help` and the bare `theme` command: current theme is plain
+  // text (not clickable, nothing to click there), the other two are buttons.
+  function themeOptionsHtml() {
+    var current = getTheme() || "green";
+    return THEMES.map(function (t) {
+      if (t === current) return '<span class="accent">[' + esc(t) + "]</span>";
+      return cmdLink(t, "theme " + t);
+    }).join(" | ");
   }
 
   // ── commands ─────────────────────────────────────────────────────
@@ -94,12 +106,9 @@
         { html: "  " + cmdBtn("links") + "           where to find me" },
         { html: "  " + cmdBtn("now") + "             what i'm doing lately" },
         { html: "  " + cmdBtn("uses") + "            my setup" },
-        { html: "  " + cmdBtn("ls") + " [posts]      list posts" },
-        { html: "  " + cmdBtn("cat") + " &lt;slug&gt;      read a post  (cat resume too)" },
+        { html: "  " + cmdBtn("resume") + "          open my resume" },
         { html: "  " + cmdBtn("contact") + "         how to reach me" },
-        { html: "  " + cmdBtn("banner") + "          the big letters" },
-        { html: "  " + cmdBtn("theme") + " &lt;name&gt;    " + esc(THEMES.join(" | ")) },
-        { html: "  " + cmdBtn("date") + "            current time" },
+        { html: "  theme               " + themeOptionsHtml() },
         { html: "  " + cmdBtn("clear") + "           clear the screen" },
         { html: "  " + cmdBtn("help") + "            this" },
         "",
@@ -128,34 +137,10 @@
       return out;
     },
 
-    ls: function (args) {
-      if (args[0] && args[0] !== "posts") {
-        return [{ text: "ls: " + args[0] + ": no such directory", cls: "err" }];
-      }
-      return C.posts.map(function (p) {
-        var cmd = "cat " + p.slug;
-        return { html: "  " + esc(p.date) + "  " + cmdLink(p.slug, cmd) + "   " + cmdLink(p.title, cmd, "dim") };
-      }).concat([
-        "",
-        { text: "tip: click a post to open it.", cls: "dim" },
-      ]);
-    },
-
-    cat: function (args) {
-      var slug = args[0];
-      if (!slug) return [{ text: "cat: missing operand (try `ls posts`)", cls: "err" }];
-      if (slug === "resume") {
-        var r = C.links.filter(function (l) { return l.label === "resume"; })[0];
-        if (r && r.url && r.url !== "#") return [{ html: "resume: " + anchor(r.url, r.url) }];
-        return [{ text: "resume: not linked yet (edit content.js)", cls: "err" }];
-      }
-      var post = C.posts.filter(function (p) { return p.slug === slug; })[0];
-      if (!post) return [{ text: "cat: " + slug + ": no such post", cls: "err" }];
-      return [
-        { text: post.title, cls: "accent" },
-        { text: post.date, cls: "dim" },
-        "",
-      ].concat(post.body);
+    resume: function () {
+      var r = C.links.filter(function (l) { return l.label === "resume"; })[0];
+      if (r && r.url && r.url !== "#") return [{ html: "resume: " + anchor(r.url, r.url) }];
+      return [{ text: "resume: not linked yet (edit content.js)", cls: "err" }];
     },
 
     contact: function () {
@@ -170,7 +155,7 @@
     },
 
     theme: function (args) {
-      if (!args[0]) return ["theme: " + (getTheme() || "green") + "  (options: " + THEMES.join(", ") + ")"];
+      if (!args[0]) return [{ html: "theme: " + themeOptionsHtml() }];
       if (applyTheme(args[0])) return [{ text: "theme set to " + args[0], cls: "dim" }];
       return [{ text: "theme: unknown theme '" + args[0] + "' (options: " + THEMES.join(", ") + ")", cls: "err" }];
     },
@@ -182,7 +167,7 @@
     clear: function () { return { lines: [], action: "clear" }; },
   };
 
-  var COMMAND_NAMES = Object.keys(COMMANDS).concat(["whoami"]);
+  var COMMAND_NAMES = Object.keys(COMMANDS);
 
   // core: parse + dispatch. returns {lines, action}
   function execute(cmdline) {
@@ -236,6 +221,7 @@
     runCommand(v);
     input.focus();
   }
+  window.__cmd = submit; // called directly from onclick="" on generated .cmd buttons
 
   function onKey(e) {
     if (e.key === "Enter") {
@@ -269,25 +255,28 @@
   }
 
   // ── boot ─────────────────────────────────────────────────────────
+  // order: boot lines, then current date, then the banner, then status + hint.
   var BOOT = [
-    { text: "booting " + P.host + " (" + new Date().toDateString() + ")", cls: "dim" },
+    { text: "booting " + P.host, cls: "dim" },
     { text: "[  ok  ] mounted /home/" + P.user, cls: "dim" },
     { text: "[  ok  ] started identity.service", cls: "dim" },
     { text: "[  ok  ] reached target interactive", cls: "dim" },
     "",
   ];
 
-  var WELCOME = [
-    { text: P.name, cls: "accent" },
-    { text: P.tagline, cls: "dim" },
-    { text: P.status, cls: "dim" },
-    "",
-    { html: '<span class="dim">type or click </span>' + cmdBtn("help") + '<span class="dim"> to get started.</span>' },
-    "",
-  ];
-
   function finishBoot() {
-    printLines(WELCOME);
+    var lines = [
+      { text: new Date().toString(), cls: "dim" },
+      "",
+    ]
+      .concat(COMMANDS.banner())
+      .concat([
+        { text: P.status, cls: "dim" },
+        "",
+        { html: '<span class="dim">type or click </span>' + cmdBtn("help") + '<span class="dim"> to get started.</span>' },
+        "",
+      ]);
+    printLines(lines);
     input.focus();
     scrollDown();
   }
@@ -328,10 +317,10 @@
     window.addEventListener("touchstart", onSkipInput);
   }
 
-  // clicking a .cmd button runs that command; any other click just focuses the input
+  // any click that isn't on a .cmd button (those run via their own onclick=) just
+  // refocuses the input, so typing keeps working right after tapping around.
   document.addEventListener("click", function (e) {
-    var cmdEl = e.target.closest ? e.target.closest(".cmd") : null;
-    if (cmdEl) { submit(cmdEl.getAttribute("data-cmd")); return; }
+    if (e.target.closest && e.target.closest(".cmd")) return;
     if (window.getSelection().toString()) return; // let text selection work
     if (input) input.focus();
   });
@@ -348,11 +337,11 @@
   // ── self-check (run demo() in the browser console) ───────────────
   window.demo = function () {
     console.assert(execute("help").lines.length > 5, "help lists commands");
-    console.assert(execute("cat nope").lines[0].text.indexOf("no such post") > -1, "missing post errors");
+    console.assert(execute("resume").lines.length > 0, "resume command works");
     console.assert(execute("frobnicate").lines[0].text.indexOf("command not found") === 0, "unknown cmd");
     console.assert(execute("clear").action === "clear", "clear signals action");
     console.assert(execute("").lines.length === 0, "empty input is a no-op");
-    console.assert(execute("theme green").lines[0].text.indexOf("green") > -1, "theme switch");
+    console.assert(execute("theme amber").lines[0].text.indexOf("amber") > -1, "theme switch");
     applyTheme("green");
     console.log("demo: all assertions passed");
   };
