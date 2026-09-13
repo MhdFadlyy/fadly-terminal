@@ -64,8 +64,13 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   text-decoration: underline dotted;
   text-underline-offset: 3px;
 }
+.cmd::-moz-focus-inner { border: 0; padding: 0; }
 .cmd:hover, .cmd:focus-visible { text-decoration-style: solid; }
 .cmd:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* fixed-width name column in `help`, so the description lines up regardless of
+   whether the name is a <button> or plain text */
+.cmd-name { display: inline-block; min-width: 15ch; }
 
 /* input row */
 .row { display: flex; }

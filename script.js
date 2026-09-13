@@ -99,23 +99,23 @@
   // each returns: array of lines, or {lines, action}
   var COMMANDS = {
     help: function () {
-      // pad by visible label length (not HTML length) so every row lines up in one column
-      var COL = 16;
-      function row(labelHtml, visibleLabel, rest) {
-        return { html: "  " + labelHtml + " ".repeat(Math.max(2, COL - visibleLabel.length)) + rest };
+      // fixed-width column via CSS (min-width in ch), not counted spaces: a <button> and
+      // plain text don't render at identical widths, so space-padding drifted out of line.
+      function row(labelHtml, rest) {
+        return { html: '  <span class="cmd-name">' + labelHtml + "</span>" + rest };
       }
       return [
         "available commands:",
         "",
-        row(cmdBtn("about") + ", " + cmdBtn("whoami"), "about, whoami", "who i am"),
-        row(cmdBtn("links"), "links", "where to find me"),
-        row(cmdBtn("now"), "now", "what i'm doing lately"),
-        row(cmdBtn("uses"), "uses", "my setup"),
-        row(cmdBtn("resume"), "resume", "open my resume"),
-        row(cmdBtn("contact"), "contact", "how to reach me"),
-        row("theme", "theme", themeOptionsHtml()),
-        row(cmdBtn("clear"), "clear", "clear the screen"),
-        row(cmdBtn("help"), "help", "this"),
+        row(cmdBtn("about") + ", " + cmdBtn("whoami"), "who i am"),
+        row(cmdBtn("links"), "where to find me"),
+        row(cmdBtn("now"), "what i'm doing lately"),
+        row(cmdBtn("uses"), "my setup"),
+        row(cmdBtn("resume"), "open my resume"),
+        row(cmdBtn("contact"), "how to reach me"),
+        row("theme", themeOptionsHtml()),
+        row(cmdBtn("clear"), "clear the screen"),
+        row(cmdBtn("help"), "this"),
         "",
         { text: "tip: click a command name to run it, no typing needed.", cls: "dim" },
       ];
