@@ -52,6 +52,21 @@ a { color: var(--accent); text-decoration: none; }
 a:hover, a:focus-visible { text-decoration: underline; }
 a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
+/* clickable command name inside output, e.g. in `help` */
+.cmd {
+  background: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+.cmd:hover, .cmd:focus-visible { text-decoration-style: solid; }
+.cmd:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
 /* input row */
 .row { display: flex; }
 .prompt { color: var(--dim); flex: none; white-space: pre; }

@@ -74,6 +74,11 @@
     return '<a href="' + esc(url) + '"' + attr + ">" + esc(label) + "</a>";
   }
 
+  // clickable command name: tap it to run that command without typing
+  function cmdBtn(name) {
+    return '<button class="cmd" type="button" data-cmd="' + esc(name) + '">' + esc(name) + "</button>";
+  }
+
   // ── commands ─────────────────────────────────────────────────────
   // each returns: array of lines, or {lines, action}
   var COMMANDS = {
@@ -81,18 +86,20 @@
       return [
         "available commands:",
         "",
-        "  about, whoami   who i am",
-        "  links           where to find me",
-        "  now             what i'm doing lately",
-        "  uses            my setup",
-        "  ls [posts]      list posts",
-        "  cat <slug>      read a post  (cat resume too)",
-        "  contact         how to reach me",
-        "  banner          the big letters",
-        "  theme <name>    " + THEMES.join(" | "),
-        "  date            current time",
-        "  clear           clear the screen",
-        "  help            this",
+        { html: "  " + cmdBtn("about") + ", " + cmdBtn("whoami") + "   who i am" },
+        { html: "  " + cmdBtn("links") + "           where to find me" },
+        { html: "  " + cmdBtn("now") + "             what i'm doing lately" },
+        { html: "  " + cmdBtn("uses") + "            my setup" },
+        { html: "  " + cmdBtn("ls") + " [posts]      list posts" },
+        { html: "  " + cmdBtn("cat") + " &lt;slug&gt;      read a post  (cat resume too)" },
+        { html: "  " + cmdBtn("contact") + "         how to reach me" },
+        { html: "  " + cmdBtn("banner") + "          the big letters" },
+        { html: "  " + cmdBtn("theme") + " &lt;name&gt;    " + esc(THEMES.join(" | ")) },
+        { html: "  " + cmdBtn("date") + "            current time" },
+        { html: "  " + cmdBtn("clear") + "           clear the screen" },
+        { html: "  " + cmdBtn("help") + "            this" },
+        "",
+        { text: "tip: click a command name to run it, no typing needed.", cls: "dim" },
       ];
     },
 
@@ -213,13 +220,18 @@
     term.appendChild(inputRow);
   }
 
+  // run a command as if typed + submitted: used by Enter and by clicking a .cmd button
+  function submit(v) {
+    input.value = "";
+    if (v.trim()) { history.push(v); }
+    histIdx = history.length;
+    runCommand(v);
+    input.focus();
+  }
+
   function onKey(e) {
     if (e.key === "Enter") {
-      var v = input.value;
-      input.value = "";
-      if (v.trim()) { history.push(v); }
-      histIdx = history.length;
-      runCommand(v);
+      submit(input.value);
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       if (histIdx > 0) { histIdx--; input.value = history[histIdx]; moveCaretEnd(); }
@@ -262,7 +274,7 @@
     { text: P.tagline, cls: "dim" },
     { text: P.status, cls: "dim" },
     "",
-    { html: '<span class="dim">type </span>help<span class="dim"> to get started.</span>' },
+    { html: '<span class="dim">type or click </span>' + cmdBtn("help") + '<span class="dim"> to get started.</span>' },
     "",
   ];
 
@@ -308,8 +320,10 @@
     window.addEventListener("touchstart", onSkipInput);
   }
 
-  // focus input on any click in the terminal
+  // clicking a .cmd button runs that command; any other click just focuses the input
   document.addEventListener("click", function (e) {
+    var cmdEl = e.target.closest ? e.target.closest(".cmd") : null;
+    if (cmdEl) { submit(cmdEl.getAttribute("data-cmd")); return; }
     if (window.getSelection().toString()) return; // let text selection work
     if (input) input.focus();
   });
