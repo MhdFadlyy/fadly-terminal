@@ -19,7 +19,7 @@ python3 -m http.server 8000
 
 ## Commands
 
-`help` `about` / `whoami` `links` `now` `uses` `resume` `contact` `theme <amber|green|mono>`
+`help` `whoami` `links` `now` `uses` `resume` `contact` `theme <amber|green|mono>`
 `clear` `echo`
 
 `banner` and `date` still work if typed, they just don't show up in `help` since the

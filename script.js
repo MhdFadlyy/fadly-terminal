@@ -107,7 +107,7 @@
       return [
         "available commands:",
         "",
-        row(cmdBtn("about") + ", " + cmdBtn("whoami"), "who i am"),
+        row(cmdBtn("whoami"), "who i am"),
         row(cmdBtn("links"), "where to find me"),
         row(cmdBtn("now"), "what i'm doing lately"),
         row(cmdBtn("uses"), "my setup"),
@@ -121,7 +121,6 @@
       ];
     },
 
-    about: function () { return C.whoami.slice(); },
     whoami: function () { return C.whoami.slice(); },
 
     links: function () {
