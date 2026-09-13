@@ -1,5 +1,4 @@
 // ── Edit everything below. This is the only file you normally touch. ──
-// Placeholder content — replace with your real details, then commit + push.
 
 window.CONTENT = {
   profile: {
@@ -45,24 +44,54 @@ window.CONTENT = {
   // `ls posts` / `cat <slug>` — short writing. Newest first.
   posts: [
     {
-      slug: "hello-world",
-      title: "hello world",
-      date: "2026-09-01",
+      slug: "soc-wazuh-homelab",
+      title: "wazuh, real soc work, and a homelab",
+      date: "2026-09-05",
       body: [
-        "this is a placeholder post.",
+        "when i first got handed wazuh at diskominfo sumutprov, i was nervous. it's a real",
+        "SIEM watching real infrastructure, not a lab exercise.",
         "",
-        "edit content.js to add your own. each post is { slug, title, date, body }",
-        "where body is an array of lines.",
+        "the more i dug into it though, the more i realized how flexible it is, especially",
+        "writing custom detection rules. that got me hooked.",
+        "",
+        "since then i've been running wazuh in a homelab alongside the SOC work, and the two",
+        "feed each other. monitoring at kominfo shows me how real attacks actually look in",
+        "production. the homelab is where i break things on purpose to see exactly what",
+        "rule fires, what message it generates, and how to wire up the detection",
+        "infrastructure behind it.",
+        "",
+        "one teaches me the attacker's side, the other teaches me the defender's tooling.",
+        "doing both at once is teaching me faster than either alone would.",
+      ],
+    },
+    {
+      slug: "why-i-started-learning-red-team",
+      title: "blue team first, red team next",
+      date: "2026-07-10",
+      body: [
+        "i started out fully blue team. defending against attackers felt exciting —",
+        "protecting systems, catching the bad guys, all of it.",
+        "",
+        "but at some point it clicked: to defend well, i need to understand how an attacker",
+        "actually thinks. detection rules mean more when you know what you're detecting for.",
+        "",
+        "that's why i started learning red team / pentesting alongside SOC work. it's not a",
+        "switch away from blue team, it's filling in the other half of the picture.",
       ],
     },
     {
       slug: "why-a-terminal",
       title: "why a terminal site",
-      date: "2026-08-15",
+      date: "2026-06-20",
       body: [
-        "placeholder.",
+        "i didn't want another static portfolio site.",
         "",
-        "explain here why you built your site as a terminal instead of a normal page.",
+        "most personal sites look the same: a hero section, a grid of skills, a contact form",
+        "nobody uses. you scroll once and leave.",
+        "",
+        "i think a resume website should be interactive — something a visitor actually plays",
+        "with, not just scrolls past. that's why this is a terminal you type into instead of",
+        "a page you skim.",
       ],
     },
   ],
