@@ -74,9 +74,12 @@
     return '<a href="' + esc(url) + '"' + attr + ">" + esc(label) + "</a>";
   }
 
-  // clickable command name: tap it to run that command without typing
+  // clickable text that runs a command without typing, e.g. a post slug that runs `cat <slug>`
+  function cmdLink(label, cmd) {
+    return '<button class="cmd" type="button" data-cmd="' + esc(cmd) + '">' + esc(label) + "</button>";
+  }
   function cmdBtn(name) {
-    return '<button class="cmd" type="button" data-cmd="' + esc(name) + '">' + esc(name) + "</button>";
+    return cmdLink(name, name);
   }
 
   // ── commands ─────────────────────────────────────────────────────
@@ -129,8 +132,11 @@
         return [{ text: "ls: " + args[0] + ": no such directory", cls: "err" }];
       }
       return C.posts.map(function (p) {
-        return { html: "  " + esc(p.date) + "  " + esc(p.slug) + '   <span class="dim">' + esc(p.title) + "</span>" };
-      });
+        return { html: "  " + esc(p.date) + "  " + cmdLink(p.slug, "cat " + p.slug) + '   <span class="dim">' + esc(p.title) + "</span>" };
+      }).concat([
+        "",
+        { text: "tip: click a post to open it.", cls: "dim" },
+      ]);
     },
 
     cat: function (args) {
