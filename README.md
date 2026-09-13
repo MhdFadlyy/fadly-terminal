@@ -1,12 +1,12 @@
 # fadly-terminal
 
-Personal site as an interactive terminal. Static — plain HTML/CSS/JS, no build step,
+Personal site as an interactive terminal. Static: plain HTML/CSS/JS, no build step,
 no dependencies. Inspired by [atqamz.com](https://atqamz.com), but the terminal here
 actually takes commands.
 
 ## Edit your content
 
-Everything you'd change lives in **`content.js`** — name, tagline, links, `now`,
+Everything you'd change lives in **`content.js`**: name, tagline, links, `now`,
 `uses`, and posts. Edit it, commit, push. GitHub Actions redeploys automatically.
 You never need to touch `script.js`.
 
@@ -52,13 +52,13 @@ or change the default by editing `:root` in `style.css`.
 
 ## Self-check
 
-Open the browser console and run `demo()` — asserts the command engine behaves.
+Open the browser console and run `demo()` (asserts the command engine behaves).
 
 ## Files
 
 | file | what |
 |------|------|
-| `content.js` | your data — the only file you edit |
+| `content.js` | your data, the only file you edit |
 | `script.js`  | terminal engine (commands, history, boot, themes) |
 | `style.css`  | palette + layout + CRT scanline |
 | `index.html` | shell + `<noscript>` fallback |

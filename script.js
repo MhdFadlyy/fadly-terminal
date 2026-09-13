@@ -128,7 +128,7 @@
 
     cat: function (args) {
       var slug = args[0];
-      if (!slug) return [{ text: "cat: missing operand — try `ls posts`", cls: "err" }];
+      if (!slug) return [{ text: "cat: missing operand (try `ls posts`)", cls: "err" }];
       if (slug === "resume") {
         var r = C.links.filter(function (l) { return l.label === "resume"; })[0];
         if (r && r.url && r.url !== "#") return [{ html: "resume: " + anchor(r.url, r.url) }];
@@ -157,7 +157,7 @@
     theme: function (args) {
       if (!args[0]) return ["theme: " + (getTheme() || "amber") + "  (options: " + THEMES.join(", ") + ")"];
       if (applyTheme(args[0])) return [{ text: "theme set to " + args[0], cls: "dim" }];
-      return [{ text: "theme: unknown theme '" + args[0] + "' — options: " + THEMES.join(", "), cls: "err" }];
+      return [{ text: "theme: unknown theme '" + args[0] + "' (options: " + THEMES.join(", ") + ")", cls: "err" }];
     },
 
     date: function () { return [new Date().toString()]; },
@@ -178,7 +178,7 @@
     var args = parts.slice(1);
     var fn = COMMANDS[name];
     if (!fn) {
-      return { lines: [{ text: "command not found: " + name + " — try `help`", cls: "err" }] };
+      return { lines: [{ text: "command not found: " + name + " (try `help`)", cls: "err" }] };
     }
     var res = fn(args);
     return Array.isArray(res) ? { lines: res } : res;
@@ -250,7 +250,7 @@
 
   // ── boot ─────────────────────────────────────────────────────────
   var BOOT = [
-    { text: "booting " + P.host + " — " + new Date().toDateString(), cls: "dim" },
+    { text: "booting " + P.host + " (" + new Date().toDateString() + ")", cls: "dim" },
     { text: "[  ok  ] mounted /home/" + P.user, cls: "dim" },
     { text: "[  ok  ] started identity.service", cls: "dim" },
     { text: "[  ok  ] reached target interactive", cls: "dim" },

@@ -12,7 +12,7 @@ window.CONTENT = {
   // whoami output
   whoami: [
     "Pali",
-    "SOC analyst — detection, triage, incident response.",
+    "SOC analyst: detection, triage, incident response.",
     "cybersecurity student @ International Islamic University Malaysia (IIUM).",
     "based in malaysia, open to opportunities worldwide.",
     "fun fact: breaks things to learn how to defend them better.",
@@ -26,7 +26,7 @@ window.CONTENT = {
     { label: "resume", url: "resume.pdf" },
   ],
 
-  // `now` command — what you're focused on lately.
+  // `now` command: what you're focused on lately.
   now: [
     "leveling up in penetration testing (OSCP path).",
     "threat hunting & log analysis.",
@@ -34,14 +34,14 @@ window.CONTENT = {
     "last updated: 2026-09",
   ],
 
-  // `uses` command — your setup.
+  // `uses` command: your setup.
   uses: {
     os: ["kali linux", "linux"],
     languages: ["python"],
     tools: ["wireshark", "splunk", "burp suite", "nmap"],
   },
 
-  // `ls posts` / `cat <slug>` — short writing. Newest first.
+  // `ls posts` / `cat <slug>`: short writing. Newest first.
   posts: [
     {
       slug: "soc-wazuh-homelab",
@@ -69,7 +69,7 @@ window.CONTENT = {
       title: "blue team first, red team next",
       date: "2026-07-10",
       body: [
-        "i started out fully blue team. defending against attackers felt exciting —",
+        "i started out fully blue team. defending against attackers felt exciting,",
         "protecting systems, catching the bad guys, all of it.",
         "",
         "but at some point it clicked: to defend well, i need to understand how an attacker",
@@ -89,7 +89,7 @@ window.CONTENT = {
         "most personal sites look the same: a hero section, a grid of skills, a contact form",
         "nobody uses. you scroll once and leave.",
         "",
-        "i think a resume website should be interactive — something a visitor actually plays",
+        "i think a resume website should be interactive: something a visitor actually plays",
         "with, not just scrolls past. that's why this is a terminal you type into instead of",
         "a page you skim.",
       ],
