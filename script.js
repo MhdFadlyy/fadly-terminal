@@ -75,8 +75,9 @@
   }
 
   // clickable text that runs a command without typing, e.g. a post slug that runs `cat <slug>`
-  function cmdLink(label, cmd) {
-    return '<button class="cmd" type="button" data-cmd="' + esc(cmd) + '">' + esc(label) + "</button>";
+  function cmdLink(label, cmd, extraClass) {
+    var cls = extraClass ? "cmd " + extraClass : "cmd";
+    return '<button class="' + cls + '" type="button" data-cmd="' + esc(cmd) + '">' + esc(label) + "</button>";
   }
   function cmdBtn(name) {
     return cmdLink(name, name);
@@ -132,7 +133,8 @@
         return [{ text: "ls: " + args[0] + ": no such directory", cls: "err" }];
       }
       return C.posts.map(function (p) {
-        return { html: "  " + esc(p.date) + "  " + cmdLink(p.slug, "cat " + p.slug) + '   <span class="dim">' + esc(p.title) + "</span>" };
+        var cmd = "cat " + p.slug;
+        return { html: "  " + esc(p.date) + "  " + cmdLink(p.slug, cmd) + "   " + cmdLink(p.title, cmd, "dim") };
       }).concat([
         "",
         { text: "tip: click a post to open it.", cls: "dim" },

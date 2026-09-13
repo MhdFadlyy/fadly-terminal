@@ -66,6 +66,8 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 }
 .cmd:hover, .cmd:focus-visible { text-decoration-style: solid; }
 .cmd:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.cmd.dim { color: var(--dim); }
+.cmd.dim:hover, .cmd.dim:focus-visible { color: var(--fg); }
 
 /* input row */
 .row { display: flex; }
