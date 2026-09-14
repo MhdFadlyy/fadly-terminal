@@ -124,7 +124,7 @@
     whoami: function () { return C.whoami.slice(); },
 
     links: function () {
-      return C.links.map(function (l) {
+      return C.links.filter(function (l) { return l.label !== "resume"; }).map(function (l) {
         return { html: "  " + l.label.padEnd(10) + anchor(l.url.replace(/^mailto:/, ""), l.url) };
       });
     },
