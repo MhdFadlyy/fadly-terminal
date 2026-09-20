@@ -5,14 +5,14 @@ window.CONTENT = {
     user: "pali",
     host: "web",
     name: "Pali",
-    tagline: "blue team by trade, red team curious · SOC analyst",
-    status: "cybersecurity student @ IIUM · open to opportunities worldwide",
+    tagline: "learning penetration testing · SOC analyst background",
+    status: "cybersecurity student @ IIUM · learning penetration testing · open to opportunities worldwide",
   },
 
   // whoami output
   whoami: [
     "Pali",
-    "SOC analyst: detection, triage, incident response.",
+    "learning penetration testing, coming from a SOC analyst background (detection, triage, incident response).",
     "cybersecurity student @ International Islamic University Malaysia (IIUM).",
     "based in malaysia, open to opportunities worldwide.",
     "fun fact: breaks things to learn how to defend them better.",
