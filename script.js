@@ -104,27 +104,35 @@
       function row(labelHtml, rest) {
         return { html: '  <span class="cmd-name">' + labelHtml + "</span>" + rest };
       }
+      // grouped and ranked so the 3 commands a recruiter actually needs (reach me)
+      // lead, ahead of about and terminal utilities.
       return [
         "available commands:",
         "",
-        row(cmdBtn("whoami"), "who i am"),
+        "# reach me",
         row(cmdBtn("links"), "where to find me"),
+        row(cmdBtn("resume"), "open my resume"),
+        row(cmdBtn("contact"), "fastest way to reach me"),
+        "",
+        "# about",
+        row(cmdBtn("whoami"), "who i am"),
         row(cmdBtn("now"), "what i'm doing lately"),
         row(cmdBtn("uses"), "my setup"),
-        row(cmdBtn("resume"), "open my resume"),
-        row(cmdBtn("contact"), "how to reach me"),
-        row("theme", themeOptionsHtml()),
+        "",
+        "# terminal",
+        row("theme", themeOptionsHtml() + ' <span class="dim">(brackets = current)</span>'),
         row(cmdBtn("clear"), "clear the screen"),
         row(cmdBtn("help"), "this"),
         "",
         { text: "tip: click a command name to run it, no typing needed.", cls: "dim" },
+        { text: "tip: ↑/↓ for history · Tab to autocomplete · Ctrl+L to clear.", cls: "dim" },
       ];
     },
 
     whoami: function () { return C.whoami.slice(); },
 
     links: function () {
-      return C.links.filter(function (l) { return l.label !== "resume"; }).map(function (l) {
+      return C.links.map(function (l) {
         return { html: "  " + l.label.padEnd(10) + anchor(l.url.replace(/^mailto:/, ""), l.url) };
       });
     },
@@ -148,8 +156,9 @@
     },
 
     contact: function () {
-      return C.links.filter(function (l) { return l.label !== "resume"; })
-        .map(function (l) { return { html: "  " + l.label.padEnd(10) + anchor(l.url.replace(/^mailto:/, ""), l.url) }; });
+      var email = C.links.filter(function (l) { return l.label === "email"; })[0];
+      if (!email) return [{ text: "contact: not linked yet (edit content.js)", cls: "err" }];
+      return [{ html: "reach me: " + anchor(email.url.replace(/^mailto:/, ""), email.url) }];
     },
 
     banner: function () {
@@ -168,8 +177,14 @@
 
     echo: function (args) { return [args.join(" ")]; },
 
-    clear: function () { return { lines: [], action: "clear" }; },
+    // clearing the screen still leaves a way back to `help`, instead of a blank
+    // prompt with no hint of what to try next.
+    clear: function () { return { lines: [startHintLine()], action: "clear" }; },
   };
+
+  function startHintLine() {
+    return { html: '<span class="dim">type or click </span>' + cmdBtn("help") + '<span class="dim"> to get started.</span>' };
+  }
 
   var COMMAND_NAMES = Object.keys(COMMANDS);
 
@@ -182,7 +197,7 @@
     var args = parts.slice(1);
     var fn = COMMANDS[name];
     if (!fn) {
-      return { lines: [{ text: "command not found: " + name + " (try `help`)", cls: "err" }] };
+      return { lines: [{ text: "command not found: " + name + " (try 'help')", cls: "err" }] };
     }
     var res = fn(args);
     return Array.isArray(res) ? { lines: res } : res;
@@ -244,7 +259,7 @@
       if (cur && cur.indexOf(" ") < 0) {
         var m = COMMAND_NAMES.filter(function (n) { return n.indexOf(cur) === 0; });
         if (m.length === 1) input.value = m[0] + " ";
-        else if (m.length > 1) { printLine(m.join("  ")); scrollDown(); }
+        else if (m.length > 1) { printLine({ text: "possible: " + m.join("  "), cls: "dim" }); scrollDown(); }
       }
     } else if (e.key === "l" && e.ctrlKey) {
       e.preventDefault();
@@ -277,7 +292,7 @@
       .concat([
         { text: P.status, cls: "dim" },
         "",
-        { html: '<span class="dim">type or click </span>' + cmdBtn("help") + '<span class="dim"> to get started.</span>' },
+        startHintLine(),
         "",
       ]);
     printLines(lines);
@@ -315,10 +330,12 @@
     function onSkipInput() {
       window.removeEventListener("keydown", onSkipInput);
       window.removeEventListener("touchstart", onSkipInput);
+      window.removeEventListener("click", onSkipInput);
       skip();
     }
     window.addEventListener("keydown", onSkipInput);
     window.addEventListener("touchstart", onSkipInput);
+    window.addEventListener("click", onSkipInput);
   }
 
   // any click that isn't on a .cmd button (those run via their own onclick=) just
