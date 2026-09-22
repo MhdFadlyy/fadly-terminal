@@ -155,10 +155,16 @@
       return [{ text: "resume: not linked yet (edit content.js)", cls: "err" }];
     },
 
+    // unlike `links` (full resource list: github, resume, etc), `contact` is
+    // filtered + ordered to just the channels for reaching out, preferred first.
     contact: function () {
       var email = C.links.filter(function (l) { return l.label === "email"; })[0];
+      var linkedin = C.links.filter(function (l) { return l.label === "linkedin"; })[0];
       if (!email) return [{ text: "contact: not linked yet (edit content.js)", cls: "err" }];
-      return [{ html: "reach me: " + anchor(email.url.replace(/^mailto:/, ""), email.url) }];
+      var out = [{ html: "email (preferred): " + anchor(email.url.replace(/^mailto:/, ""), email.url) }];
+      if (linkedin) out.push({ html: "linkedin: " + anchor(linkedin.url, linkedin.url) });
+      out.push({ text: P.status, cls: "dim" });
+      return out;
     },
 
     banner: function () {
