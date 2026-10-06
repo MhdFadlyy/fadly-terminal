@@ -1,8 +1,7 @@
 # fadly-terminal
 
 Personal site as an interactive terminal. Static: plain HTML/CSS/JS, no build step,
-no dependencies. Inspired by [atqamz.com](https://atqamz.com), but the terminal here
-actually takes commands.
+no dependencies. The terminal actually takes commands.
 
 ## Edit your content
 
