@@ -6,14 +6,14 @@ window.CONTENT = {
     host: "web",
     name: "Pali",
     tagline: "learning penetration testing · SOC analyst background",
-    status: "cybersecurity student @ IIUM · learning penetration testing · open to opportunities worldwide",
+    status: "cybersecurity undergraduate @ IIUM (graduating Dec 2026) · learning penetration testing · open to opportunities worldwide",
   },
 
   // whoami output
   whoami: [
     "Pali",
     "learning penetration testing, coming from a SOC analyst background (detection, triage, incident response).",
-    "cybersecurity student @ International Islamic University Malaysia (IIUM).",
+    "cybersecurity undergraduate @ International Islamic University Malaysia (IIUM), graduating Dec 2026.",
     "based in malaysia, open to opportunities worldwide.",
     "fun fact: breaks things to learn how to defend them better.",
   ],
@@ -28,10 +28,10 @@ window.CONTENT = {
 
   // `now` command: what you're focused on lately.
   now: [
-    "leveling up in penetration testing (OSCP path).",
+    "leveling up in penetration testing and SOC detection work.",
     "threat hunting & log analysis.",
     "cloud security fundamentals.",
-    "last updated: 2026-09",
+    "last updated: 2026-10",
   ],
 
   // `uses` command: your setup.
